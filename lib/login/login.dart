@@ -1,24 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:peta_log/manager/manager_dashbord.dart';
+import 'package:peta_log/owner/owner_dashbord.dart';
 
-void main() {
-  runApp(const CarWashApp());
-}
-
-class CarWashApp extends StatelessWidget {
-  const CarWashApp({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Car Wash Management',
-      home: const LoginPage(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  void handleLogin() {
+    String username = emailController.text.trim().toLowerCase();
+
+    if (username == "owner") {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const OwnerDashboard()),
+      );
+    }
+     else if (username == "manager") {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ManagerDashboard()),
+      );
+    }
+     else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Invalid role or username")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,17 +74,19 @@ class LoginPage extends StatelessWidget {
                 style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
               const SizedBox(height: 25),
-              const TextField(
-                decoration: InputDecoration(
-                  labelText: "Email",
-                  hintText: "Enter your email",
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  labelText: "Username",
+                  hintText: "Enter username",
                   border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 20),
-              const TextField(
+              TextField(
+                controller: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Password",
                   hintText: "Enter your password",
                   border: OutlineInputBorder(),
@@ -80,11 +97,7 @@ class LoginPage extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   icon: const Icon(Icons.login, color: Colors.white),
-                  label: const Text(
-  "Sign In",
-  style: TextStyle(color: Colors.white),
-),
-
+                  label: const Text("Sign In", style: TextStyle(color: Colors.white)),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     backgroundColor: const Color(0xFF3B82F6),
@@ -92,9 +105,7 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6),
                     ),
                   ),
-                  onPressed: () {
-                    // Add login logic here
-                  },
+                  onPressed: handleLogin,
                 ),
               ),
               const SizedBox(height: 15),
@@ -103,9 +114,7 @@ class LoginPage extends StatelessWidget {
                 children: [
                   const Text("Don't have an account? "),
                   GestureDetector(
-                    onTap: () {
-                      // Navigate to SignUp
-                    },
+                    onTap: () {},
                     child: const Text(
                       "Sign Up",
                       style: TextStyle(color: Color(0xFF3B82F6), fontWeight: FontWeight.bold),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peta_log/pages/login.dart';
+import 'package:peta_log/login/login.dart';
 import 'sections/hero_section.dart';
 import 'sections/features_section.dart';
 import 'sections/use_cases_section.dart';
